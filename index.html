@@ -60,12 +60,11 @@
       // ✅ Salva flag di accesso verificato
       localStorage.setItem("accesso_verificato", "true");
 
-      // 🔁 Reindirizza dinamicamente
-      const redirect = new URLSearchParams(window.location.search).get("redirect");
+      // 🔁 Reindirizza alla pagina di origine
+      const referrer = document.referrer;
 
-      // Verifica che il redirect sia valido
-      if (redirect && redirect.startsWith("https://")) {
-        window.location.href = redirect;
+      if (referrer && referrer.startsWith("https://alestore-official.github.io/")) {
+        window.location.href = referrer;
       } else {
         window.location.href = "https://alestore-official.github.io/";
       }
