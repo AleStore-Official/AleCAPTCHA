@@ -6,30 +6,46 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <script src="https://www.google.com/recaptcha/api.js" async defer></script>
   <style>
-    body {
-      background-color: #ffffff;
-      font-family: Arial, sans-serif;
-      text-align: center;
-      padding-top: 100px;
+    * {
+      box-sizing: border-box;
     }
-    .box {
+    body {
+      margin: 0;
+      padding: 0;
+      background-color: #f9f9f9;
+      font-family: 'Segoe UI', sans-serif;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
+    .container {
+      background-color: #fff;
+      padding: 40px;
+      border-radius: 12px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+      text-align: center;
       max-width: 400px;
-      margin: auto;
-      padding: 30px;
-      border: 1px solid #ddd;
-      border-radius: 8px;
-      box-shadow: 0 0 10px rgba(0,0,0,0.05);
-      allign-content: center;
+      width: 100%;
+    }
+    h2 {
+      margin-bottom: 20px;
+      color: #333;
+    }
+    .g-recaptcha {
+      display: inline-block;
+      margin: 0 auto;
     }
     button {
+      margin-top: 25px;
       padding: 12px 20px;
       background-color: #007bff;
       color: white;
       border: none;
-      border-radius: 4px;
+      border-radius: 6px;
       cursor: pointer;
       font-weight: bold;
-      margin-top: 20px;
+      width: 100%;
     }
     button:hover {
       background-color: #0056b3;
@@ -37,7 +53,7 @@
   </style>
 </head>
 <body>
-  <div class="box">
+  <div class="container">
     <h2>Verifica di sicurezza</h2>
     <form id="captcha-form">
       <div class="g-recaptcha" data-sitekey="6LeQ7vgrAAAAAL0TmRAbUZgeWYEBnR5MEqnTMb2n"></div>
@@ -53,7 +69,7 @@
         alert("Completa il reCAPTCHA per continuare.");
         return;
       }
-      window.location.href = "https://tuo-username.github.io/accesso/register.html";
+      window.location.href = "https://alestore-official.github.io/accesso/register.html";
     });
   </script>
 </body>
