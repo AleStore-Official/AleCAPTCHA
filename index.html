@@ -1,43 +1,34 @@
 <!DOCTYPE html>
-<html lang="it">
+<html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>Verifica reCAPTCHA</title>
+  <title>reCAPTCHA Verification</title>
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <script src="https://www.google.com/recaptcha/api.js" async defer></script>
   <style>
-    * {
-      box-sizing: border-box;
-    }
     body {
       margin: 0;
       padding: 0;
-      background-color: #f9f9f9;
+      background-color: #f0f0f0;
       font-family: 'Segoe UI', sans-serif;
       display: flex;
       justify-content: center;
       align-items: center;
       height: 100vh;
     }
-    .container {
+    .box {
       background-color: #fff;
       padding: 40px;
       border-radius: 12px;
       box-shadow: 0 4px 12px rgba(0,0,0,0.1);
       text-align: center;
-      max-width: 400px;
-      width: 100%;
     }
     h2 {
       margin-bottom: 20px;
       color: #333;
     }
-    .g-recaptcha {
-      display: inline-block;
-      margin: 0 auto;
-    }
-    button {
-      margin-top: 25px;
+    #verify-btn {
+      margin-top: 20px;
       padding: 12px 20px;
       background-color: #007bff;
       color: white;
@@ -45,31 +36,33 @@
       border-radius: 6px;
       cursor: pointer;
       font-weight: bold;
-      width: 100%;
     }
-    button:hover {
+    #verify-btn:hover {
       background-color: #0056b3;
     }
   </style>
 </head>
 <body>
-  <div class="container">
-    <h2>Verifica di sicurezza</h2>
-    <form id="captcha-form">
-      <div class="g-recaptcha" data-sitekey="6LeQ7vgrAAAAAL0TmRAbUZgeWYEBnR5MEqnTMb2n"></div>
-      <button type="submit">Continua</button>
-    </form>
+  <div class="box">
+    <h2>Security Check</h2>
+    <div class="g-recaptcha" data-sitekey="YOUR_SITE_KEY"></div>
+    <button id="verify-btn">Continue</button>
   </div>
 
   <script>
-    document.getElementById('captcha-form').addEventListener('submit', function(e) {
-      e.preventDefault();
+    document.getElementById("verify-btn").addEventListener("click", function () {
       const response = grecaptcha.getResponse();
       if (!response) {
-        alert("Completa il reCAPTCHA per continuare.");
+        alert("Please complete the reCAPTCHA to proceed.");
         return;
       }
-      window.location.href = "https://alestore-official.github.io/accesso/register.html";
+
+      // ✅ Mark access as verified
+      localStorage.setItem("access_verified", "true");
+
+      // 🔁 Redirect dynamically
+      const redirect = new URLSearchParams(window.location.search).get("redirect");
+      window.location.href = redirect || "https://alestore-official.github.io/";
     });
   </script>
 </body>
