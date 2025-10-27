@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8" />
+  <title>Verifica reCAPTCHA</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <script src="https://www.google.com/recaptcha/api.js" async defer></script>
+  <style>
+    body {
+      background-color: #ffffff;
+      font-family: Arial, sans-serif;
+      text-align: center;
+      padding-top: 100px;
+    }
+    .box {
+      max-width: 400px;
+      margin: auto;
+      padding: 30px;
+      border: 1px solid #ddd;
+      border-radius: 8px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.05);
+    }
+    button {
+      padding: 12px 20px;
+      background-color: #007bff;
+      color: white;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      font-weight: bold;
+      margin-top: 20px;
+    }
+    button:hover {
+      background-color: #0056b3;
+    }
+  </style>
+</head>
+<body>
+  <div class="box">
+    <h2>Verifica di sicurezza</h2>
+    <form id="captcha-form">
+      <div class="g-recaptcha" data-sitekey="6LeQ7vgrAAAAAL0TmRAbUZgeWYEBnR5MEqnTMb2n"></div>
+      <button type="submit">Continua</button>
+    </form>
+  </div>
+
+  <script>
+    document.getElementById('captcha-form').addEventListener('submit', function(e) {
+      e.preventDefault();
+      const response = grecaptcha.getResponse();
+      if (!response) {
+        alert("Completa il reCAPTCHA per continuare.");
+        return;
+      }
+      window.location.href = "https://tuo-username.github.io/accesso/register.html";
+    });
+  </script>
+</body>
+</html>
