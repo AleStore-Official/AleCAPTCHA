@@ -60,8 +60,13 @@
       // ✅ Salva flag di accesso verificato
       localStorage.setItem("accesso_verificato", "true");
 
-      // 🔁 Reindirizzamento fisso
-      window.location.href = "https://alestore-official.github.io/accesso/index.html";
+      // 🔁 Reindirizza alla pagina di origine
+      const referrer = document.referrer;
+      if (referrer && referrer.startsWith("https://alestore-official.github.io/")) {
+        window.location.href = referrer;
+      } else {
+        window.location.href = "https://alestore-official.github.io/";
+      }
     });
   </script>
 </body>
