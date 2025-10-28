@@ -1,15 +1,15 @@
 <!DOCTYPE html>
-<html lang="it">
+<html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>Verifica reCAPTCHA</title>
+  <title>Security Check</title>
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <script src="https://www.google.com/recaptcha/api.js" async defer></script>
   <style>
     body {
       margin: 0;
       padding: 0;
-      background-color: #f0f0f0;
+      background: #f0f0f0;
       font-family: 'Segoe UI', sans-serif;
       display: flex;
       justify-content: center;
@@ -17,7 +17,7 @@
       height: 100vh;
     }
     .box {
-      background-color: #fff;
+      background: #fff;
       padding: 40px;
       border-radius: 12px;
       box-shadow: 0 4px 12px rgba(0,0,0,0.1);
@@ -27,46 +27,39 @@
       margin-bottom: 20px;
       color: #333;
     }
-    #verify-btn {
+    button {
       margin-top: 20px;
       padding: 12px 20px;
-      background-color: #007bff;
-      color: white;
+      background: #007bff;
+      color: #fff;
       border: none;
       border-radius: 6px;
       cursor: pointer;
       font-weight: bold;
     }
-    #verify-btn:hover {
-      background-color: #0056b3;
+    button:hover {
+      background: #0056b3;
     }
   </style>
 </head>
 <body>
   <div class="box">
-    <h2>Verifica di sicurezza</h2>
+    <h2>Security Check</h2>
     <div class="g-recaptcha" data-sitekey="6LeQ7vgrAAAAAL0TmRAbUZgeWYEBnR5MEqnTMb2n"></div>
-    <button id="verify-btn">Continua</button>
+    <button id="verify-btn">Continue</button>
   </div>
 
   <script>
     document.getElementById("verify-btn").addEventListener("click", function () {
       const response = grecaptcha.getResponse();
       if (!response) {
-        alert("Completa il reCAPTCHA per continuare.");
+        alert("Complete the reCAPTCHA.");
         return;
       }
 
-      // ✅ Salva flag di accesso verificato
-      localStorage.setItem("accesso_verificato", "true");
-
-      // 🔁 Reindirizza alla pagina di origine
-      const referrer = document.referrer;
-      if (referrer && referrer.startsWith("https://alestore-official.github.io/")) {
-        window.location.href = referrer;
-      } else {
-        window.location.href = "https://alestore-official.github.io/";
-      }
+      localStorage.setItem("access_verified", "true");
+      localStorage.setItem("origin_page", document.referrer || "https://alestore-official.github.io/");
+      window.location.href = "https://alestore-official.github.io/AleLogin";
     });
   </script>
 </body>
