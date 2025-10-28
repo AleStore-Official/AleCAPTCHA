@@ -57,9 +57,16 @@
         return;
       }
 
-      // ✅ Save verification flag and origin
+      // ✅ Save verification flag
       localStorage.setItem("access_verified", "true");
-      localStorage.setItem("origin_page", document.referrer || "https://alestore-official.github.io/");
+
+      // ✅ Save origin page only if not already set
+      if (!localStorage.getItem("origin_page")) {
+        localStorage.setItem("origin_page", document.referrer || "https://alestore-official.github.io/");
+      }
+
+      // ✅ Clear any previous registration flag (optional)
+      localStorage.removeItem("user_verified");
 
       // 🔁 Redirect to registration page
       window.location.href = "https://alestore-official.github.io/AleLogin";
