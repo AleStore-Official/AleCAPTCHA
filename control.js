@@ -1,13 +1,16 @@
 (function () {
-  const verificato = localStorage.getItem("access_verified");
-  const registrato = localStorage.getItem("utente_verificato");
+  // Retrieve verification flags from localStorage
+  const accessVerified = localStorage.getItem("access_verified");
+  const userRegistered = localStorage.getItem("user_verified");
 
-  // Se l'utente non ha superato reCAPTCHA o non è registrato, reindirizza
-  if (verificato !== "true" || registrato !== "true") {
-    // Salva la pagina corrente come origine
+  // If either flag is missing or false, redirect to ReCAPTCHA
+  if (accessVerified !== "true" || userRegistered !== "true") {
+    // Save the current page as the origin
     localStorage.setItem("origin_page", window.location.href);
 
-    // Reindirizza alla verifica reCAPTCHA
+    // Redirect to the ReCAPTCHA verification page
     window.location.href = "https://alestore-official.github.io/AleCAPTCHA";
   }
+
+  // Otherwise, allow access — no action needed
 })();
