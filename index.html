@@ -57,8 +57,11 @@
         return;
       }
 
+      // ✅ Save verification flag and origin
       localStorage.setItem("access_verified", "true");
       localStorage.setItem("origin_page", document.referrer || "https://alestore-official.github.io/");
+
+      // 🔁 Redirect to registration page
       window.location.href = "https://alestore-official.github.io/AleLogin";
     });
   </script>
