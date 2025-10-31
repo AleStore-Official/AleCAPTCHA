@@ -57,15 +57,21 @@
         return;
       }
 
+      // ✅ Imposta accesso verificato
       localStorage.setItem("access_verified", "true");
 
+      // ✅ Salva la pagina di origine se non già presente
       if (!localStorage.getItem("origin_page")) {
-        localStorage.setItem("origin_page", document.referrer || "https://alestore-official.github.io/");
+        localStorage.setItem("origin_page", document.referrer || "https://alestore-official.github.io/AleInfo.html");
       }
 
+      // ✅ Rimuove eventuale stato precedente di verifica utente
       localStorage.removeItem("user_verified");
 
-      window.location.href = "https://alestore-official.github.io/AleRegister";
+      // ✅ Ritardo per garantire che localStorage venga salvato prima del redirect
+      setTimeout(() => {
+        window.location.href = "https://alestore-official.github.io/AleRegister";
+      }, 300);
     });
   </script>
 </body>
