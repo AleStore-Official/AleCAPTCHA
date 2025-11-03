@@ -7,7 +7,7 @@
   <script src="https://www.google.com/recaptcha/api.js?hl=en" async defer></script>
   <style>
     body {
-      background: linear-gradient(135deg, #e0f7fa, #fce4ec);
+      background: linear-gradient(135deg, #d0f0ff, #fbeaff);
       font-family: 'Segoe UI', sans-serif;
       display: flex;
       justify-content: center;
@@ -18,17 +18,20 @@
     }
 
     .glass-box {
-      background: rgba(255, 255, 255, 0.15);
-      backdrop-filter: blur(12px);
-      -webkit-backdrop-filter: blur(12px);
-      border-radius: 16px;
+      background: rgba(255, 255, 255, 0.12);
+      border: 1px solid rgba(255, 255, 255, 0.25);
+      border-radius: 20px;
       padding: 40px;
-      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+      box-shadow:
+        0 4px 30px rgba(0, 0, 0, 0.1),
+        inset 0 0 0.5px rgba(255, 255, 255, 0.4);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
       max-width: 400px;
-      width: 100%;
+      width: 90%;
+      text-align: center;
       animation: fadeInUp 0.8s ease-out;
       transition: transform 0.3s ease;
-      text-align: center;
       display: flex;
       flex-direction: column;
       align-items: center;
@@ -40,7 +43,8 @@
 
     h2 {
       margin-bottom: 20px;
-      color: #333;
+      color: #222;
+      font-weight: 600;
     }
 
     .g-recaptcha {
@@ -55,7 +59,7 @@
       background: rgba(0, 123, 255, 0.6);
       color: #fff;
       border: none;
-      border-radius: 8px;
+      border-radius: 10px;
       cursor: pointer;
       font-weight: bold;
       transition: background 0.3s ease;
