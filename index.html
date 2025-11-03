@@ -29,6 +29,9 @@
       animation: fadeInUp 0.8s ease-out;
       transition: transform 0.3s ease;
       text-align: center;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
     }
 
     .glass-box:hover {
@@ -40,8 +43,14 @@
       color: #333;
     }
 
+    .g-recaptcha {
+      margin: 0 auto;
+      transform: scale(1.05);
+      transform-origin: center;
+    }
+
     button {
-      margin-top: 20px;
+      margin-top: 30px;
       padding: 12px 20px;
       background: rgba(0, 123, 255, 0.6);
       color: #fff;
