@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <title>Security Check</title>
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <script src="https://www.google.com/recaptcha/api.js" async defer></script>
+  <script src="https://www.google.com/recaptcha/api.js?render=6LdFdwUsAAAAAOfmaCwyzFby1JxxlF_2mnubM9m4"></script>
   <style>
     body {
       background: linear-gradient(135deg, #d0f0ff, #fbeaff);
@@ -47,12 +47,6 @@
       font-weight: 600;
     }
 
-    .g-recaptcha {
-      margin: 0 auto;
-      transform: scale(1.05);
-      transform-origin: center;
-    }
-
     button {
       margin-top: 30px;
       padding: 12px 20px;
@@ -84,29 +78,42 @@
 <body>
   <div class="glass-box">
     <h2>Security Check</h2>
-    <div class="g-recaptcha" data-sitekey="6LdFdwUsAAAAAOfmaCwyzFby1JxxlF_2mnubM9m4"></div>
     <button id="verify-btn">Continue</button>
   </div>
 
   <script>
     document.getElementById("verify-btn").addEventListener("click", function () {
-      const response = grecaptcha.getResponse();
-      if (!response) {
-        alert("Please complete the reCAPTCHA.");
-        return;
-      }
+      grecaptcha.ready(function () {
+        grecaptcha.execute("6LdFdwUsAAAAAOfmaCwyzFby1JxxlF_2mnubM9m4", { action: "security_check" }).then(function (token) {
+          // Invia il token al tuo backend per la verifica
+          fetch("https://TUO_SERVER/verifica-recaptcha", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ token: token, action: "security_check" })
+          })
+          .then(res => res.json())
+          .then(data => {
+            if (data.success) {
+              localStorage.setItem("access_verified", "true");
 
-      localStorage.setItem("access_verified", "true");
+              if (!localStorage.getItem("origin_page")) {
+                localStorage.setItem("origin_page", document.referrer || "https://alestore-official.github.io/AleInfo.html");
+              }
 
-      if (!localStorage.getItem("origin_page")) {
-        localStorage.setItem("origin_page", document.referrer || "https://alestore-official.github.io/AleInfo.html");
-      }
+              localStorage.removeItem("user_verified");
 
-      localStorage.removeItem("user_verified");
-
-      setTimeout(() => {
-        window.location.href = "https://alestore-official.github.io/AleRegister";
-      }, 300);
+              setTimeout(() => {
+                window.location.href = "https://alestore-official.github.io/AleRegister";
+              }, 300);
+            } else {
+              alert("Verifica fallita: comportamento sospetto.");
+            }
+          })
+          .catch(() => {
+            alert("Errore nella verifica del reCAPTCHA.");
+          });
+        });
+      });
     });
   </script>
 </body>
