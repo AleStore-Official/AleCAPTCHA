@@ -2,12 +2,14 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>Security Check</title>
+  <title>AleCAPTCHA - Security Check</title>
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <script src="https://www.google.com/recaptcha/api.js?hl=en" async defer></script>
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
+  <button id="themeToggle" title="Toggle theme">🌙</button>
+
   <div class="glass-box">
     <h2>Security Check</h2>
     <div class="g-recaptcha" data-sitekey="6LfVeAUsAAAAAKTm9BXiYq8QbayI40kuXFUi-siE"></div>
@@ -23,11 +25,9 @@
       }
 
       localStorage.setItem("access_verified", "true");
-
       if (!localStorage.getItem("origin_page")) {
-        localStorage.setItem("origin_page", document.referrer || "https://alestore-official.github.io/AleInfo.html");
+        localStorage.setItem("origin_page", document.referrer || "https://alestore-official.github.io/AleInfo");
       }
-
       localStorage.removeItem("user_verified");
 
       setTimeout(() => {
@@ -35,25 +35,12 @@
       }, 300);
     });
 
-    const toggle = document.createElement("button");
-    toggle.id = "themeToggle";
-    toggle.title = "Toggle theme";
-    toggle.textContent = "🌙";
-    toggle.style.position = "fixed";
-    toggle.style.top = "20px";
-    toggle.style.right = "20px";
-    toggle.style.fontSize = "20px";
-    toggle.style.background = "none";
-    toggle.style.border = "none";
-    toggle.style.cursor = "pointer";
-    document.body.appendChild(toggle);
-
+    const toggle = document.getElementById("themeToggle");
     const currentTheme = localStorage.getItem("alestore-theme");
     if (currentTheme === "dark") {
       document.body.classList.add("dark");
       toggle.textContent = "☀️";
     }
-
     toggle.onclick = () => {
       document.body.classList.toggle("dark");
       const theme = document.body.classList.contains("dark") ? "dark" : "light";
