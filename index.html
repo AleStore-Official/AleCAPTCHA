@@ -2,14 +2,86 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>AleCAPTCHA - Security Check</title>
+  <title>Security Check</title>
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <script src="https://www.google.com/recaptcha/api.js?hl=en" async defer></script>
-  <link rel="stylesheet" href="style.css">
+  <style>
+    body {
+      background: linear-gradient(135deg, #d0f0ff, #fbeaff);
+      font-family: 'Segoe UI', sans-serif;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+      overflow: hidden;
+    }
+
+    .glass-box {
+      background: rgba(255, 255, 255, 0.12);
+      border: 1px solid rgba(255, 255, 255, 0.25);
+      border-radius: 20px;
+      padding: 40px;
+      box-shadow:
+        0 4px 30px rgba(0, 0, 0, 0.1),
+        inset 0 0 0.5px rgba(255, 255, 255, 0.4);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      max-width: 400px;
+      width: 90%;
+      text-align: center;
+      animation: fadeInUp 0.8s ease-out;
+      transition: transform 0.3s ease;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .glass-box:hover {
+      transform: scale(1.02);
+    }
+
+    h2 {
+      margin-bottom: 20px;
+      color: #222;
+      font-weight: 600;
+    }
+
+    .g-recaptcha {
+      margin: 0 auto;
+      transform: scale(1.05);
+      transform-origin: center;
+    }
+
+    button {
+      margin-top: 30px;
+      padding: 12px 20px;
+      background: rgba(0, 123, 255, 0.6);
+      color: #fff;
+      border: none;
+      border-radius: 10px;
+      cursor: pointer;
+      font-weight: bold;
+      transition: background 0.3s ease;
+    }
+
+    button:hover {
+      background: rgba(0, 123, 255, 0.8);
+    }
+
+    @keyframes fadeInUp {
+      from {
+        opacity: 0;
+        transform: translateY(30px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+  </style>
 </head>
 <body>
-  <button id="themeToggle" title="Toggle theme">🌙</button>
-
   <div class="glass-box">
     <h2>Security Check</h2>
     <div class="g-recaptcha" data-sitekey="6LfVeAUsAAAAAKTm9BXiYq8QbayI40kuXFUi-siE"></div>
@@ -25,28 +97,17 @@
       }
 
       localStorage.setItem("access_verified", "true");
+
       if (!localStorage.getItem("origin_page")) {
-        localStorage.setItem("origin_page", document.referrer || "https://alestore-official.github.io/AleInfo");
+        localStorage.setItem("origin_page", document.referrer || "https://alestore-official.github.io/AleInfo.html");
       }
+
       localStorage.removeItem("user_verified");
 
       setTimeout(() => {
         window.location.href = "https://alestore-official.github.io/AleRegister";
       }, 300);
     });
-
-    const toggle = document.getElementById("themeToggle");
-    const currentTheme = localStorage.getItem("alestore-theme");
-    if (currentTheme === "dark") {
-      document.body.classList.add("dark");
-      toggle.textContent = "☀️";
-    }
-    toggle.onclick = () => {
-      document.body.classList.toggle("dark");
-      const theme = document.body.classList.contains("dark") ? "dark" : "light";
-      localStorage.setItem("alestore-theme", theme);
-      toggle.textContent = theme === "dark" ? "☀️" : "🌙";
-    };
   </script>
 </body>
 </html>
