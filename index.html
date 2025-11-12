@@ -82,13 +82,21 @@
   </style>
 </head>
 <body>
-  <div class="glass-box">
+  <div class="glass-box" id="captcha-box">
     <h2>Security Check</h2>
     <div class="g-recaptcha" data-sitekey="6LfVeAUsAAAAAKTm9BXiYq8QbayI40kuXFUi-siE"></div>
     <button id="verify-btn">Continue</button>
   </div>
 
   <script>
+    const verified = localStorage.getItem("access_verified");
+    const registered = localStorage.getItem("user_verified");
+
+    if (verified === "true" && registered === "true") {
+      const origin = localStorage.getItem("origin_page") || "https://alestore-official.github.io/AleInfo";
+      window.location.href = origin;
+    }
+
     document.getElementById("verify-btn").addEventListener("click", function () {
       const response = grecaptcha.getResponse();
       if (!response) {
@@ -99,7 +107,7 @@
       localStorage.setItem("access_verified", "true");
 
       if (!localStorage.getItem("origin_page")) {
-        localStorage.setItem("origin_page", document.referrer || "https://alestore-official.github.io/AleInfo.html");
+        localStorage.setItem("origin_page", document.referrer || "https://alestore-official.github.io/AleInfo");
       }
 
       localStorage.removeItem("user_verified");
