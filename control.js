@@ -3,7 +3,7 @@
   const registered = localStorage.getItem("user_verified");
 
   if (verified === "true" && registered === "true") {
-    const origin = localStorage.getItem("origin_page") || "https://alestore-official.github.io/AleLogin";
+    const origin = localStorage.getItem("origin_page") || "https://alestore-official.github.io/AleCAPTCHA";
     window.location.href = origin;
   }
 
