@@ -13,6 +13,7 @@
     if (confirmButton) {
       confirmButton.addEventListener("click", () => {
         localStorage.setItem("access_verified", "true");
+        localStorage.setItem("user_verified", "true");
         const origin = localStorage.getItem("origin_page") || "https://alestore-official.github.io/AleRegister";
         window.location.href = origin;
       });
