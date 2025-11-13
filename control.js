@@ -1,7 +1,9 @@
-export function blockIfCaptchaFailed() {
-  const captchaPassed = localStorage.getItem("captcha_passed") === "true";
+(function () {
+  const verified = localStorage.getItem("access_verified");
+  const registered = localStorage.getItem("user_verified");
 
-  if (!captchaPassed) {
+  if (verified !== "true" || registered !== "true") {
+    localStorage.setItem("origin_page", window.location.href);
     window.location.href = "https://alestore-official.github.io/AleCAPTCHA";
   }
-}
+})();
