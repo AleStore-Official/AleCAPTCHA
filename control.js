@@ -1,5 +1,5 @@
 (function () {
-  const verified = localStorage.getItem("access_verified");
+  const verified = localStorage.getItem("captcha_passed");
 
   if (verified !== "true") {
     localStorage.setItem("origin_page", window.location.href);
