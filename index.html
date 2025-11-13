@@ -25,6 +25,7 @@
       box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1),
                   inset 0 0 0.5px rgba(255, 255, 255, 0.4);
       backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
       max-width: 400px;
       width: 90%;
       text-align: center;
@@ -80,21 +81,13 @@
   </style>
 </head>
 <body>
-  <div class="glass-box" id="captcha-box">
+  <div class="glass-box">
     <h2>Security Check</h2>
-    <div class="g-recaptcha" data-sitekey="6LfVeAUsAAAAAKTm9BXiYq8QbayI40kuXFUi-siE"></div>
+    <div class="g-recaptcha" data-sitekey="YOUR_SITE_KEY"></div>
     <button id="verify-btn">Continue</button>
   </div>
 
   <script>
-    const verified = localStorage.getItem("access_verified");
-    const registered = localStorage.getItem("user_verified");
-
-    if (verified === "true" && registered === "true") {
-      const origin = localStorage.getItem("origin_page") || "https://alestore-official.github.io/AleInfo";
-      window.location.href = origin;
-    }
-
     document.getElementById("verify-btn").addEventListener("click", function () {
       const response = grecaptcha.getResponse();
       if (!response) {
@@ -102,11 +95,10 @@
         return;
       }
 
-      localStorage.setItem("access_verified", "true");
-      localStorage.setItem("user_verified", "true");
+      localStorage.setItem("captcha_passed", "true");
 
       if (!localStorage.getItem("origin_page")) {
-        localStorage.setItem("origin_page", document.referrer || "https://alestore-official.github.io/AleInfo");
+        localStorage.setItem("origin_page", document.referrer || "https://alestore-official.github.io/AleInfo.html");
       }
 
       setTimeout(() => {
