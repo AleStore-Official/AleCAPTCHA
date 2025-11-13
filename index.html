@@ -96,13 +96,11 @@
         return;
       }
 
-      localStorage.setItem("access_verified", "true");
+      localStorage.setItem("captcha_passed", "true");
 
       if (!localStorage.getItem("origin_page")) {
         localStorage.setItem("origin_page", document.referrer || "https://alestore-official.github.io/AleInfo.html");
       }
-
-      localStorage.removeItem("user_verified");
 
       setTimeout(() => {
         window.location.href = "https://alestore-official.github.io/AleRegister";
