@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <title>Security Check</title>
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <script src="https://www.google.com/recaptcha/enterprise.js?render=6LfVeAUsAAAAAKTm9BXiYq8QbayI40kuXFUi-siE" async defer></script>
+  <script src="https://www.google.com/recaptcha/api.js" async defer></script>
   <style>
     body {
       background: linear-gradient(135deg, #d0f0ff, #fbeaff);
@@ -14,39 +14,14 @@
       align-items: center;
       height: 100vh;
       margin: 0;
-      overflow: hidden;
     }
-
     .glass-box {
       background: rgba(255, 255, 255, 0.12);
       border: 1px solid rgba(255, 255, 255, 0.25);
       border-radius: 20px;
       padding: 40px;
-      box-shadow:
-        0 4px 30px rgba(0, 0, 0, 0.1),
-        inset 0 0 0.5px rgba(255, 255, 255, 0.4);
-      backdrop-filter: blur(16px);
-      -webkit-backdrop-filter: blur(16px);
-      max-width: 400px;
-      width: 90%;
       text-align: center;
-      animation: fadeInUp 0.8s ease-out;
-      transition: transform 0.3s ease;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
     }
-
-    .glass-box:hover {
-      transform: scale(1.02);
-    }
-
-    h2 {
-      margin-bottom: 20px;
-      color: #222;
-      font-weight: 600;
-    }
-
     button {
       margin-top: 30px;
       padding: 12px 20px;
@@ -56,49 +31,36 @@
       border-radius: 10px;
       cursor: pointer;
       font-weight: bold;
-      transition: background 0.3s ease;
     }
-
     button:hover {
       background: rgba(0, 123, 255, 0.8);
-    }
-
-    @keyframes fadeInUp {
-      from {
-        opacity: 0;
-        transform: translateY(30px);
-      }
-      to {
-        opacity: 1;
-        transform: translateY(0);
-      }
     }
   </style>
 </head>
 <body>
   <div class="glass-box">
     <h2>Security Check</h2>
-    <button id="verify-btn">Continue</button>
+    <form id="captcha-form">
+      <div class="g-recaptcha" data-sitekey="6LfVeAUsAAAAAKTm9BXiYq8QbayI40kuXFUi-siE"></div>
+      <button type="submit">Continue</button>
+    </form>
   </div>
 
   <script>
-    document.getElementById("verify-btn").addEventListener("click", function () {
-      grecaptcha.enterprise.ready(async () => {
-        const token = await grecaptcha.enterprise.execute(
-          "6LfVeAUsAAAAAKTm9BXiYq8QbayI40kuXFUi-siE",
-          { action: "login" }
-        )
-
-        localStorage.setItem("captcha_token", token)
-
-        if (!localStorage.getItem("origin_page")) {
-          localStorage.setItem("origin_page", document.referrer || "https://alestore-official.github.io/AleInfo.html")
-        }
-
-        setTimeout(() => {
-          window.location.href = "https://alestore-official.github.io/AleRegister"
-        }, 300)
-      })
+    document.getElementById("captcha-form").addEventListener("submit", async (e) => {
+      e.preventDefault()
+      const token = grecaptcha.getResponse()
+      if (!token) {
+        alert("Please complete the reCAPTCHA.")
+        return
+      }
+      localStorage.setItem("captcha_token", token)
+      if (!localStorage.getItem("origin_page")) {
+        localStorage.setItem("origin_page", document.referrer || "https://alestore-official.github.io/AleInfo.html")
+      }
+      setTimeout(() => {
+        window.location.href = "https://alestore-official.github.io/AleRegister"
+      }, 300)
     })
   </script>
 </body>
