@@ -20,7 +20,7 @@
       border: 1px solid rgba(255, 255, 255, 0.25);
       border-radius: 20px;
       padding: 40px;
-      text-align: center;
+      text-align: center.
     }
     button {
       margin-top: 30px;
@@ -55,6 +55,7 @@
         return
       }
       localStorage.setItem("captcha_token", token)
+      localStorage.setItem("captcha_passed", "true")
       if (!localStorage.getItem("origin_page")) {
         localStorage.setItem("origin_page", document.referrer || "https://alestore-official.github.io/AleInfo.html")
       }
