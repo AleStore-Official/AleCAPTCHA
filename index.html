@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <title>Security Check</title>
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <script src="https://www.google.com/recaptcha/api.js?hl=en" async defer></script>
+  <script src="https://www.google.com/recaptcha/enterprise.js?render=6LfVeAUsAAAAAKTm9BXiYq8QbayI40kuXFUi-siE" async defer></script>
   <style>
     body {
       background: linear-gradient(135deg, #d0f0ff, #fbeaff);
@@ -47,12 +47,6 @@
       font-weight: 600;
     }
 
-    .g-recaptcha {
-      margin: 0 auto;
-      transform: scale(1.05);
-      transform-origin: center;
-    }
-
     button {
       margin-top: 30px;
       padding: 12px 20px;
@@ -84,28 +78,28 @@
 <body>
   <div class="glass-box">
     <h2>Security Check</h2>
-    <div class="g-recaptcha" data-sitekey="6LfVeAUsAAAAAKTm9BXiYq8QbayI40kuXFUi-siE"></div>
     <button id="verify-btn">Continue</button>
   </div>
 
   <script>
     document.getElementById("verify-btn").addEventListener("click", function () {
-      const response = grecaptcha.getResponse();
-      if (!response) {
-        alert("Please complete the reCAPTCHA.");
-        return;
-      }
+      grecaptcha.enterprise.ready(async () => {
+        const token = await grecaptcha.enterprise.execute(
+          "6LfVeAUsAAAAAKTm9BXiYq8QbayI40kuXFUi-siE",
+          { action: "login" }
+        )
 
-      localStorage.setItem("captcha_passed", "true");
+        localStorage.setItem("captcha_token", token)
 
-      if (!localStorage.getItem("origin_page")) {
-        localStorage.setItem("origin_page", document.referrer || "https://alestore-official.github.io/AleInfo.html");
-      }
+        if (!localStorage.getItem("origin_page")) {
+          localStorage.setItem("origin_page", document.referrer || "https://alestore-official.github.io/AleInfo.html")
+        }
 
-      setTimeout(() => {
-        window.location.href = "https://alestore-official.github.io/AleRegister";
-      }, 300);
-    });
+        setTimeout(() => {
+          window.location.href = "https://alestore-official.github.io/AleRegister"
+        }, 300)
+      })
+    })
   </script>
 </body>
 </html>
