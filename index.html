@@ -20,10 +20,16 @@
       border: 1px solid rgba(255, 255, 255, 0.25);
       border-radius: 20px;
       padding: 40px;
-      text-align: center.
+      text-align: center;
+    }
+    .g-recaptcha {
+      display: flex;
+      justify-content: center;
+      margin-bottom: 20px;
     }
     button {
-      margin-top: 30px;
+      display: block;
+      margin: 0 auto;
       padding: 12px 20px;
       background: rgba(0, 123, 255, 0.6);
       color: #fff;
@@ -51,7 +57,7 @@
       e.preventDefault()
       const token = grecaptcha.getResponse()
       if (!token) {
-        alert("Please complete the reCAPTCHA.")
+        alert("❌ Please complete the reCAPTCHA.")
         return
       }
       localStorage.setItem("captcha_token", token)
