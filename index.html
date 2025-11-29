@@ -53,7 +53,11 @@
   </div>
 
   <script>
-    document.getElementById("captcha-form").addEventListener("submit", async (e) => {
+    if (localStorage.getItem("captcha_passed") === "true") {
+      window.location.href = "https://alestore-official.github.io/AleRegister"
+    }
+
+    document.getElementById("captcha-form").addEventListener("submit", (e) => {
       e.preventDefault()
       const token = grecaptcha.getResponse()
       if (!token) {
@@ -65,9 +69,7 @@
       if (!localStorage.getItem("origin_page")) {
         localStorage.setItem("origin_page", document.referrer || "https://alestore-official.github.io/AleInfo.html")
       }
-      setTimeout(() => {
-        window.location.href = "https://alestore-official.github.io/AleRegister"
-      }, 300)
+      window.location.href = "https://alestore-official.github.io/AleRegister"
     })
   </script>
 </body>
