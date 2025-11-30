@@ -47,37 +47,21 @@
   <div class="glass-box">
     <h2>Security Check</h2>
     <form id="captcha-form">
-      <div class="g-recaptcha" data-sitekey="6Le-sBwsAAAAAAiqUj0bY5VpWMoHbSvMy-e_h3xr"></div>
+      <div class="g-recaptcha" data-sitekey="6Le-sBwsAAAAAAiqUj0bY5VpWMoHbSvMy-e_h3xr" data-theme="light" data-lang="en"></div>
       <button type="submit">Continue</button>
     </form>
   </div>
 
   <script>
-    document.getElementById("captcha-form").addEventListener("submit", async (e) => {
+    document.getElementById("captcha-form").addEventListener("submit", (e) => {
       e.preventDefault();
       const token = grecaptcha.getResponse();
       if (!token) {
         alert("❌ Please complete the reCAPTCHA.");
         return;
       }
-      try {
-        const res = await fetch("https://hsyyrcbibohwvbuwxwok.supabase.co/functions/v1/verify-captcha", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ token })
-        });
-        const data = await res.json();
-        if (data.success) {
-          localStorage.setItem("captcha_passed", "true");
-          window.location.href = "https://alestore-official.github.io/AleRegister";
-        } else {
-          alert("❌ Verification failed.");
-          grecaptcha.reset();
-        }
-      } catch {
-        alert("❌ Server error.");
-        grecaptcha.reset();
-      }
+      localStorage.setItem("captcha_passed", "true");
+      window.location.href = "https://alestore-official.github.io/AleRegister";
     });
   </script>
 </body>
