@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <title>Security Check</title>
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <script src="https://www.google.com/recaptcha/api.js" async defer></script>
+  <script src="https://www.google.com/recaptcha/enterprise.js" async defer></script>
   <style>
     body {
       background: linear-gradient(135deg, #d0f0ff, #fbeaff);
@@ -46,8 +46,8 @@
 <body>
   <div class="glass-box">
     <h2>Security Check</h2>
-    <form id="captcha-form">
-      <div class="g-recaptcha" data-sitekey="6LfVeAUsAAAAAKTm9BXiYq8QbayI40kuXFUi-siE"></div>
+    <form id="captcha-form" action="/verify" method="POST">
+      <div class="g-recaptcha" data-sitekey="6Le2qhwsAAAAAC96c8zHKNhNYsJaaFMtePCHQTe5"></div>
       <button type="submit">Continue</button>
     </form>
   </div>
@@ -69,7 +69,20 @@
       if (!localStorage.getItem("origin_page")) {
         localStorage.setItem("origin_page", document.referrer || "https://alestore-official.github.io/AleInfo.html")
       }
-      window.location.href = "https://alestore-official.github.io/AleRegister"
+      fetch("/verify", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ token })
+      })
+      .then(res => res.json())
+      .then(data => {
+        if (data.success) {
+          window.location.href = "https://alestore-official.github.io/AleRegister"
+        } else {
+          alert("❌ Verification failed.")
+        }
+      })
+      .catch(() => alert("❌ Server error."))
     })
   </script>
 </body>
