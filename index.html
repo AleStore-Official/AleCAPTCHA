@@ -21,6 +21,7 @@
       border-radius: 20px;
       padding: 40px;
       text-align: center;
+      width: 320px;
     }
     .g-recaptcha {
       display: flex;
@@ -41,6 +42,15 @@
     button:hover {
       background: rgba(0, 123, 255, 0.8);
     }
+    .error-box {
+      margin-top: 15px;
+      padding: 10px;
+      border-radius: 8px;
+      background: rgba(255, 0, 0, 0.2);
+      color: #b00000;
+      font-weight: bold;
+      display: none;
+    }
   </style>
 </head>
 <body>
@@ -50,6 +60,7 @@
       <div class="g-recaptcha" data-sitekey="6Le-sBwsAAAAAAiqUj0bY5VpWMoHbSvMy-e_h3xr"></div>
       <button type="submit">Continue</button>
     </form>
+    <div id="error-box" class="error-box"></div>
   </div>
 
   <script>
@@ -57,11 +68,20 @@
       window.location.href = "https://alestore-official.github.io/AleRegister"
     }
 
+    const errorBox = document.getElementById("error-box")
+
+    function showError(message) {
+      errorBox.textContent = message
+      errorBox.style.display = "block"
+    }
+
     document.getElementById("captcha-form").addEventListener("submit", async (e) => {
       e.preventDefault()
+      errorBox.style.display = "none"
+
       const token = grecaptcha.getResponse()
       if (!token) {
-        alert("❌ Please complete the reCAPTCHA.")
+        showError("❌ Please complete the reCAPTCHA before continuing.")
         return
       }
 
@@ -72,6 +92,12 @@
           body: JSON.stringify({ token })
         })
 
+        if (!res.ok) {
+          showError("⚠️ Server returned an error (" + res.status + "). Try again later.")
+          grecaptcha.reset()
+          return
+        }
+
         const data = await res.json()
         if (data.success) {
           localStorage.setItem("captcha_passed", "true")
@@ -80,11 +106,11 @@
           }
           window.location.href = "https://alestore-official.github.io/AleRegister"
         } else {
-          alert("❌ Verification failed. Please try again.")
+          showError("❌ Verification failed. Risk score too low or invalid token.")
           grecaptcha.reset()
         }
       } catch (err) {
-        alert("⚠️ Server error. Please try again later.")
+        showError("⚠️ Network or server error. Please check your connection and try again.")
       }
     })
   </script>
