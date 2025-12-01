@@ -54,45 +54,21 @@
 
   <script>
     const RECAPTCHA_VERIFY_URL = `https://hsyyrcbibohwvbuwxwok.supabase.co/functions/v1/verify-recaptcha`; 
-    // Endpoint per il controllo esistente del cookie (necessario per saltare il CAPTCHA se la sessione è attiva)
-    const CHECK_SESSION_URL = `https://hsyyrcbibohwvbuwxwok.supabase.co/functions/v1/check-session`; 
 
-    // Funzione per controllare se esiste già una sessione valida sul server
-    async function checkExistingSession() {
-      try {
-        const response = await fetch(CHECK_SESSION_URL, { 
-            method: 'POST' 
-        });
-        const data = await response.json();
-        
-        // Se il server dice che il cookie HttpOnly è valido, reindirizziamo
-        if (response.ok && data.valid) {
-          window.location.href = "https://alestore-official.github.io/AleRegister";
-        }
-      } catch (error) {
-        console.error("Session check failed, proceeding to CAPTCHA:", error);
-      }
+    if (localStorage.getItem("captcha_passed") === "true") {
+      window.location.href = "https://alestore-official.github.io/AleRegister"
     }
-
-    // Pulizia delle vecchie chiavi di localStorage
-    localStorage.removeItem("captcha_token");
-    localStorage.removeItem("captcha_passed");
-    localStorage.removeItem("origin_page"); 
-
-    // Esegui il controllo all'avvio
-    checkExistingSession();
 
     document.getElementById("captcha-form").addEventListener("submit", async (e) => {
       e.preventDefault();
       const token = grecaptcha.getResponse();
       
       if (!token) {
-        alert("❌ Per favore, completa il reCAPTCHA.");
+        alert("❌ Please complete the reCAPTCHA.");
         return;
       }
 
       try {
-        // Chiama la Funzione Edge che imposterà il cookie sicuro
         const response = await fetch(RECAPTCHA_VERIFY_URL, {
           method: "POST",
           headers: {
@@ -104,16 +80,19 @@
         const data = await response.json();
 
         if (response.ok && data.success) {
-          // Se la verifica ha successo, il server ha impostato il cookie HttpOnly.
-          // Nessun salvataggio in localStorage.
+          localStorage.setItem("captcha_token", token);
+          localStorage.setItem("captcha_passed", "true");
+          if (!localStorage.getItem("origin_page")) {
+            localStorage.setItem("origin_page", document.referrer || "https://alestore-official.github.io/AleInfo.html");
+          }
           window.location.href = "https://alestore-official.github.io/AleRegister";
         } else {
-          alert(`❌ Controllo di sicurezza fallito: ${data.message || "Verifica reCAPTCHA non valida."}`);
+          alert(`❌ Security check failed: ${data.message || "Invalid reCAPTCHA."}`);
           grecaptcha.reset(); 
         }
       } catch (error) {
-        console.error("Errore durante il controllo di sicurezza:", error);
-        alert("❌ Si è verificato un errore imprevisto. Riprova.");
+        console.error("Error during security check:", error);
+        alert("❌ An unexpected error occurred. Please try again.");
       }
     });
   </script>
