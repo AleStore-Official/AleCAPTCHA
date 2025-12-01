@@ -53,12 +53,16 @@
   </div>
 
   <script>
-    const RECAPTCHA_VERIFY_URL = "https://hsyyrcbibohwvbuwxwok.supabase.co/functions/v1/verify-recaptcha";
+    const RECAPTCHA_VERIFY_URL = `https://hsyyrcbibohwvbuwxwok.supabase.co/functions/v1/verify-recaptcha`; 
+
+    if (localStorage.getItem("captcha_passed") === "true") {
+      window.location.href = "https://alestore-official.github.io/AleRegister"
+    }
 
     document.getElementById("captcha-form").addEventListener("submit", async (e) => {
       e.preventDefault();
       const token = grecaptcha.getResponse();
-
+      
       if (!token) {
         alert("❌ Please complete the reCAPTCHA.");
         return;
@@ -67,20 +71,27 @@
       try {
         const response = await fetch(RECAPTCHA_VERIFY_URL, {
           method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ token }),
-          credentials: "include"
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ token: token }),
         });
 
         const data = await response.json();
 
         if (response.ok && data.success) {
+          localStorage.setItem("captcha_token", token);
+          localStorage.setItem("captcha_passed", "true");
+          if (!localStorage.getItem("origin_page")) {
+            localStorage.setItem("origin_page", document.referrer || "https://alestore-official.github.io/AleInfo.html");
+          }
           window.location.href = "https://alestore-official.github.io/AleRegister";
         } else {
-          alert("❌ Security check failed.");
-          grecaptcha.reset();
+          alert(`❌ Security check failed: ${data.message || "Invalid reCAPTCHA."}`);
+          grecaptcha.reset(); 
         }
       } catch (error) {
+        console.error("Error during security check:", error);
         alert("❌ An unexpected error occurred. Please try again.");
       }
     });
