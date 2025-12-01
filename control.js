@@ -1,19 +1,9 @@
 (function () {
-  async function checkSession() {
-    try {
-      const res = await fetch("https://hsyyrcbibohwvbuwxwok.supabase.co/functions/v1/check-session", {
-        method: "GET",
-        credentials: "include"
-      });
-      const data = await res.json();
+  const verified = localStorage.getItem("captcha_passed");
+  const token = localStorage.getItem("captcha_token");
 
-      if (!data.valid) {
-        window.location.replace("https://alestore-official.github.io/AleCAPTCHA");
-      }
-    } catch {
-      window.location.replace("https://alestore-official.github.io/AleCAPTCHA");
-    }
+  if (!(verified === "true" && token && token.trim() !== "")) {
+    localStorage.setItem("origin_page", window.location.href);
+    window.location.replace("https://alestore-official.github.io/AleCAPTCHA");
   }
-
-  checkSession();
 })();
