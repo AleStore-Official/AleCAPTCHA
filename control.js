@@ -2,6 +2,7 @@
   async function checkJWT() {
     const jwt = localStorage.getItem("jwt");
     if (!jwt) {
+      localStorage.clear();
       window.location.replace("https://alestore-official.github.io/AleCAPTCHA");
       return;
     }
@@ -14,9 +15,11 @@
 
       const data = await res.json();
       if (!data.valid) {
+        localStorage.clear();
         window.location.replace("https://alestore-official.github.io/AleCAPTCHA");
       }
     } catch {
+      localStorage.clear();
       window.location.replace("https://alestore-official.github.io/AleCAPTCHA");
     }
   }
