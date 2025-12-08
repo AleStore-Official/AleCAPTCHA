@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>Security Check</title>
+  <title>AleCAPTCHA Security Check</title>
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <script src="https://www.google.com/recaptcha/api.js?hl=en" async defer></script>
   <style>
@@ -90,10 +90,10 @@
         const data = await response.json();
 
         if (response.ok && data.success && data.jwt) {
-  localStorage.setItem("jwt", data.jwt);
-  if (!localStorage.getItem("origin_page")
-    localStorage.setItem("origin_page", document.referrer || "https://alestore-official.github.io/AleInfo.html");
-  }
+          localStorage.setItem("jwt", data.jwt);
+          if (!localStorage.getItem("origin_page")) {
+            localStorage.setItem("origin_page", document.referrer || "https://alestore-official.github.io/AleInfo.html");
+          }
           window.location.href = "https://alestore-official.github.io/AleRegister";
         } else {
           alert(`❌ Security check failed: ${data.message || "Invalid reCAPTCHA."}`);
