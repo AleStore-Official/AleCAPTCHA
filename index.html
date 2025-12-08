@@ -91,11 +91,9 @@
 
         if (response.ok && data.success && data.jwt) {
   localStorage.setItem("jwt", data.jwt);
-  localStorage.setItem("jwt_saved_at", Date.now().toString());
-  if (!localStorage.getItem("origin_page")) {
+  if (!localStorage.getItem("origin_page")
     localStorage.setItem("origin_page", document.referrer || "https://alestore-official.github.io/AleInfo.html");
   }
-}
           window.location.href = "https://alestore-official.github.io/AleRegister";
         } else {
           alert(`❌ Security check failed: ${data.message || "Invalid reCAPTCHA."}`);
