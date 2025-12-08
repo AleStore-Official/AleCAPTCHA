@@ -9,7 +9,7 @@
     try {
       const res = await fetch("https://hsyyrcbibohwvbuwxwok.supabase.co/functions/v1/check-session", {
         method: "GET",
-        headers: { "Authorization": Bearer ${jwt} }
+        headers: { "Authorization": `Bearer ${jwt}` }
       });
 
       const data = await res.json();
